@@ -29,13 +29,10 @@ use serde::{Deserialize, Serialize};
 /// Supported Unofficial Extras API version.
 const API_VERSION: u32 = 2;
 
-/// Supported [`ExtrasSubscriberInfo`] version range.
-const SUB_INFO_RANGE: RangeInclusive<u32> = 1..=2;
-
 /// Helper to check compatibility.
 #[inline]
 fn check_compat(api_version: u32, sub_info_version: u32) -> bool {
-    api_version == API_VERSION && SUB_INFO_RANGE.contains(&sub_info_version)
+    api_version == API_VERSION
 }
 
 /// Information about the [Unofficial Extras](https://github.com/Krappa322/arcdps_unofficial_extras_releases) addon.
