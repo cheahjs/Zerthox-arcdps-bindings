@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "strum")]
 use strum::{Display, EnumCount, EnumIter, IntoStaticStr, VariantNames};
 
-/// Attributes for buff formulas.
+/// Attributes for buff formulas. **Removed** with EVTC version 2025-09-13.
 ///
 /// Used in [`StateChange::BuffFormula`](crate::StateChange::BuffFormula) events.
 /// This enum is different from the game's own attribute ids.
