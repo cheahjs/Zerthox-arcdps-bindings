@@ -39,9 +39,9 @@ impl From<RawKeybindChange> for KeybindChange {
             control: raw.control,
             index: raw.index,
             key: raw.key.into(),
-            mod_shift: modifier & Modifier::Shift as i32 == 1,
-            mod_ctrl: modifier & Modifier::Ctrl as i32 == 1,
-            mod_alt: modifier & Modifier::Alt as i32 == 1,
+            mod_shift: modifier & Modifier::Shift as i32 != 0,
+            mod_ctrl: modifier & Modifier::Ctrl as i32 != 0,
+            mod_alt: modifier & Modifier::Alt as i32 != 0,
         }
     }
 }
