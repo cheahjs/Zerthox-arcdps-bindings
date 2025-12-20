@@ -21,12 +21,11 @@ pub struct BuffFormula {
     pub trait_self: u32,
     pub buff_src: u32,
     pub buff_self: u32,
-    pub content_reference: f32, // TODO: appropriate type?
+    pub content_reference: f32,
+    pub content_reference_type: u8,
     pub not_npc: bool,
     pub not_player: bool,
     pub is_break: bool,
-    pub value_type: u8,
-    pub value: u32,
 }
 
 impl BuffFormula {
@@ -67,11 +66,10 @@ impl From<RawBuffFormula> for BuffFormula {
             buff_src: raw.buff_src as _,
             buff_self: raw.buff_self as _,
             content_reference: raw.content_reference,
+            content_reference_type: raw.content_reference_type,
             not_npc: raw.not_npc != 0,
             not_player: raw.not_player != 0,
             is_break: raw.is_break != 0,
-            value_type: raw.value_type,
-            value: raw.value,
         }
     }
 }
@@ -92,11 +90,10 @@ pub struct RawBuffFormula {
     pub buff_src: f32,
     pub buff_self: f32,
     pub content_reference: f32,
+    pub content_reference_type: u8,
     pub not_npc: u8,
     pub not_player: u8,
     pub is_break: u8,
-    pub value_type: u8,
-    pub value: u32,
 }
 
 impl RawBuffFormula {
@@ -130,11 +127,10 @@ impl Extract for RawBuffFormula {
             buff_src,
             buff_self,
             content_reference,
+            content_reference_type: event.pad61,
             not_npc: event.is_flanking,
             not_player: event.is_shields,
             is_break: event.is_offcycle,
-            value_type: event.pad61,
-            value: event.overstack_value,
         }
     }
 }
