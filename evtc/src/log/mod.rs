@@ -3,7 +3,7 @@ mod error;
 
 pub use self::{arc_build::*, error::*};
 
-use crate::{extract::Extract, Event, StateChange, TryExtract};
+use crate::{Event, StateChange, TryExtract, extract::Extract};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

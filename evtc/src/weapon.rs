@@ -1,6 +1,6 @@
 //! Bindings & utilities for agent weapon sets.
 
-use crate::{extract::Extract, AgentId, Event, StateChange, TryExtract};
+use crate::{AgentId, Event, StateChange, TryExtract, extract::Extract};
 use num_enum::{FromPrimitive, IntoPrimitive};
 
 #[cfg(feature = "serde")]

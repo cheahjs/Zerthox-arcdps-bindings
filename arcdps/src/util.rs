@@ -7,11 +7,11 @@ use std::{
     slice, str,
 };
 use windows::{
-    core::PCSTR,
     Win32::{
         Foundation::{FARPROC, HMODULE},
         System::LibraryLoader::GetProcAddress,
     },
+    core::PCSTR,
 };
 
 /// Helper to store raw types as globals.
@@ -43,7 +43,7 @@ pub unsafe fn str_from_cstr<'a>(ptr: *const c_char) -> Option<&'a str> {
     if ptr.is_null() {
         None
     } else {
-        CStr::from_ptr(ptr).to_str().ok()
+        unsafe { CStr::from_ptr(ptr) }.to_str().ok()
     }
 }
 
@@ -53,7 +53,7 @@ pub unsafe fn str_from_cstr<'a>(ptr: *const c_char) -> Option<&'a str> {
 #[inline]
 #[allow(dead_code)]
 pub unsafe fn str_from_cstr_len<'a>(ptr: *const c_char, len: u64) -> &'a str {
-    let slice = slice::from_raw_parts(ptr as *const u8, len as usize);
+    let slice = unsafe { slice::from_raw_parts(ptr as *const u8, len as usize) };
     str::from_utf8(slice).expect("cstr with invalid utf8")
 }
 
@@ -67,12 +67,12 @@ pub fn strip_account_prefix(account_name: &str) -> &str {
 /// Name needs to be null-terminated.
 #[inline]
 pub unsafe fn exported_proc(handle: HMODULE, name: &'static str) -> FARPROC {
-    GetProcAddress(handle, PCSTR(name.as_ptr()))
+    unsafe { GetProcAddress(handle, PCSTR(name.as_ptr())) }
 }
 
 /// Helper to convert a string to a Windows wide char string.
 #[inline]
-pub unsafe fn str_to_wide(string: impl AsRef<str>) -> Vec<u16> {
+pub fn str_to_wide(string: impl AsRef<str>) -> Vec<u16> {
     OsStr::new(string.as_ref())
         .encode_wide()
         .chain(iter::once(0))

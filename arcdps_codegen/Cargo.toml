@@ -2,7 +2,7 @@
 name = "arcdps_codegen"
 version = "0.12.1"
 authors = ["Zerthox", "Greaka"]
-edition = "2021"
+edition = "2024"
 description = "Helper macros to generate code for ArcDPS plugins"
 repository = "https://github.com/zerthox/arcdps-rs"
 

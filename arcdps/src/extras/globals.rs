@@ -29,17 +29,19 @@ impl ExtrasGlobals {
     /// Creates new Unofficial Extras globals.
     pub unsafe fn new(handle: HMODULE, version: Option<&'static str>) -> Self {
         #![allow(clippy::missing_transmute_annotations)]
-        Self {
-            handle,
-            version,
-            get_key: transmute(exported_proc(handle, "get_key\0")),
-            get_keybind: transmute(exported_proc(handle, "get_key_bind\0")),
+        unsafe {
+            Self {
+                handle,
+                version,
+                get_key: transmute(exported_proc(handle, "get_key\0")),
+                get_keybind: transmute(exported_proc(handle, "get_key_bind\0")),
+            }
         }
     }
 
     /// Initializes the Unofficial Extras globals.
     pub unsafe fn init(handle: HMODULE, version: Option<&'static str>) -> &'static Self {
-        EXTRAS_GLOBALS.get_or_init(|| Self::new(handle, version))
+        EXTRAS_GLOBALS.get_or_init(|| unsafe { Self::new(handle, version) })
     }
 
     /// Returns the Unofficial Extras globals.

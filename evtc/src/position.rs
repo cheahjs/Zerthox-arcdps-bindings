@@ -1,10 +1,10 @@
 //! Bindings & utilities for the game's 3d space.
 
-use crate::{extract::Extract, AgentId, Event, StateChange, TryExtract};
-use std::{
-    mem::transmute,
-    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
+use crate::{
+    AgentId, Event, StateChange, TryExtract,
+    extract::{Extract, transmute_field},
 };
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -29,7 +29,7 @@ impl Extract for PositionEvent {
         Self {
             time: event.time,
             agent: AgentId::from_src(event),
-            position: Position::extract(event),
+            position: unsafe { event.extract() },
         }
     }
 }
@@ -297,7 +297,7 @@ impl Div<&Position> for f32 {
 impl Extract for Position {
     #[inline]
     unsafe fn extract(event: &Event) -> Self {
-        let [x, y]: [f32; 2] = transmute(event.dst_agent);
+        let [x, y] = transmute_field!(event.dst_agent as [f32; 2]);
         let z = f32::from_ne_bytes(event.value.to_ne_bytes());
         Self::new(x, y, z)
     }

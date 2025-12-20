@@ -22,18 +22,22 @@ pub unsafe fn init_imgui(
     malloc: Option<MallocFn>,
     free: Option<FreeFn>,
 ) {
-    imgui::sys::igSetCurrentContext(ctx);
-    imgui::sys::igSetAllocatorFunctions(malloc, free, ptr::null_mut());
-    IG_CONTEXT.get_or_init(|| Share::new(Context::current()));
+    unsafe {
+        imgui::sys::igSetCurrentContext(ctx);
+        imgui::sys::igSetAllocatorFunctions(malloc, free, ptr::null_mut());
+        IG_CONTEXT.get_or_init(|| Share::new(Context::current()));
+    }
 }
 
 /// Retrieves the [`imgui::Context`].
 #[inline]
 pub unsafe fn imgui_context() -> &'static Context {
-    IG_CONTEXT
-        .get()
-        .expect("imgui context not initialized")
-        .get()
+    unsafe {
+        IG_CONTEXT
+            .get()
+            .expect("imgui context not initialized")
+            .get()
+    }
 }
 
 /// Retrieves the [`imgui::Ui`] for rendering.

@@ -1,6 +1,6 @@
 use crate::{
-    extract::{transmute_field, Extract},
     Event, StateChange, TryExtract,
+    extract::{Extract, transmute_field},
 };
 
 #[cfg(feature = "serde")]
@@ -39,7 +39,7 @@ impl BuffFormula {
 impl Extract for BuffFormula {
     #[inline]
     unsafe fn extract(event: &Event) -> Self {
-        RawBuffFormula::extract(event).into()
+        unsafe { RawBuffFormula::extract(event) }.into()
     }
 }
 
@@ -110,8 +110,17 @@ impl RawBuffFormula {
 impl Extract for RawBuffFormula {
     #[inline]
     unsafe fn extract(event: &Event) -> Self {
-        let [kind, attr1, attr2, param1, param2, param3, trait_src, trait_self, content_reference] =
-            transmute_field!(event.time as [f32; 9]);
+        let [
+            kind,
+            attr1,
+            attr2,
+            param1,
+            param2,
+            param3,
+            trait_src,
+            trait_self,
+            content_reference,
+        ] = transmute_field!(event.time as [f32; 9]);
         let [buff_src, buff_self] = transmute_field!(event.src_instance_id as [f32; 2]);
 
         Self {

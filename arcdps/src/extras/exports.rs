@@ -2,7 +2,7 @@
 //!
 //! Calling an export before Unofficial Extras calls `extras_init` will cause a panic.
 
-use crate::extras::{globals::ExtrasGlobals, Control, Key, Keybind};
+use crate::extras::{Control, Key, Keybind, globals::ExtrasGlobals};
 
 /// Retrieves the Unofficial Extras version as string.
 #[inline]
@@ -61,9 +61,9 @@ pub fn get_keybind(control: Control) -> Keybind {
 /// Raw Unofficial Extras exports.
 pub mod raw {
     use crate::extras::{
+        Control,
         globals::ExtrasGlobals,
         keybinds::{RawKey, RawKeybind},
-        Control,
     };
     use windows::Win32::Foundation::HMODULE;
 
@@ -79,9 +79,11 @@ pub mod raw {
     /// `key_index` can be `0` or `1` for primary/secondary keybind respectively.
     #[inline]
     pub unsafe fn get_key(control: Control, key_index: u32) -> RawKey {
-        ExtrasGlobals::get()
-            .get_key
-            .expect("failed to find extras export get_key")(control, key_index)
+        unsafe {
+            ExtrasGlobals::get()
+                .get_key
+                .expect("failed to find extras export get_key")(control, key_index)
+        }
     }
 
     /// Signature of the [`get_keybind`] export.
@@ -90,8 +92,10 @@ pub mod raw {
     /// Retrieves the [`RawKeybind`] for a given game [`Control`] from Unofficial Extras.
     #[inline]
     pub unsafe fn get_keybind(control: Control) -> RawKeybind {
-        ExtrasGlobals::get()
-            .get_keybind
-            .expect("failed to find extras export get_key")(control)
+        unsafe {
+            ExtrasGlobals::get()
+                .get_keybind
+                .expect("failed to find extras export get_key")(control)
+        }
     }
 }

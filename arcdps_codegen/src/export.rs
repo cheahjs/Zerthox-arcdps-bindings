@@ -1,6 +1,6 @@
 use crate::{
-    abi::{C_ABI, SYSTEM_ABI},
     ArcDpsGen,
+    abi::{C_ABI, SYSTEM_ABI},
 };
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
@@ -115,7 +115,7 @@ impl ArcDpsGen {
 
             /// ArcDPS looks for this exported function and calls the address it returns on client load.
             /// If you need any of the ignored values, create an issue with your use case.
-            #[no_mangle]
+            #[unsafe(no_mangle)]
             pub unsafe extern #SYSTEM_ABI fn get_init_addr(
                 arc_version: *const ::arcdps::__macro::c_char,
                 imgui_ctx: *mut ::arcdps::imgui::sys::ImGuiContext,
@@ -130,7 +130,7 @@ impl ArcDpsGen {
             }
 
             /// ArcDPS looks for this exported function and calls the address it returns on client exit.
-            #[no_mangle]
+            #[unsafe(no_mangle)]
             pub extern #SYSTEM_ABI fn get_release_addr() -> *mut ::arcdps::__macro::c_void {
                 self::__unload as _
             }

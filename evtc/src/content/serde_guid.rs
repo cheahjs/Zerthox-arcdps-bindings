@@ -1,7 +1,7 @@
-use crate::content::{GuidExt, GUID};
+use crate::content::{GUID, GuidExt};
 use serde::{
-    de::{Error, Visitor},
     Deserializer, Serializer,
+    de::{Error, Visitor},
 };
 use std::fmt;
 

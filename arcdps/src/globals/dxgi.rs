@@ -2,13 +2,13 @@ use crate::util::Share;
 use std::{
     ffi::c_void,
     sync::{
-        atomic::{AtomicU32, Ordering},
         OnceLock,
+        atomic::{AtomicU32, Ordering},
     },
 };
 use windows::{
-    core::{Interface, InterfaceRef},
     Win32::Graphics::{Direct3D11::ID3D11Device, Dxgi::IDXGISwapChain},
+    core::{Interface, InterfaceRef},
 };
 
 /// Current DirectX version.
@@ -46,6 +46,7 @@ pub unsafe fn init_dxgi(id3d: *mut c_void, d3d_version: u32) {
     if d3d_version == 11 && !id3d.is_null() {
         let swap_chain =
             unsafe { IDXGISwapChain::from_raw_borrowed(&id3d) }.expect("invalid swap chain");
-        DXGI_SWAP_CHAIN.get_or_init(|| Share::new(InterfaceRef::from_interface(swap_chain)));
+        DXGI_SWAP_CHAIN
+            .get_or_init(|| unsafe { Share::new(InterfaceRef::from_interface(swap_chain)) });
     }
 }

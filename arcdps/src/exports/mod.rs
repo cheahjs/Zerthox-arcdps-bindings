@@ -130,7 +130,7 @@ impl Colors {
     unsafe fn read_color(&self, first_index: usize, second_index: usize) -> Option<Color> {
         let ptr = self.raw[first_index];
         if !ptr.is_null() {
-            let color = *ptr.add(second_index);
+            let color = unsafe { *ptr.add(second_index) };
             Some(color.into())
         } else {
             None

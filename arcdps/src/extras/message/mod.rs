@@ -32,15 +32,11 @@ impl Message<'_> {
     pub unsafe fn new(message_type: MessageType, message: RawMessage) -> Self {
         match message_type {
             MessageType::Squad => Self::Squad(
-                message
-                    .squad
-                    .as_ref()
+                unsafe { message.squad.as_ref() }
                     .expect("invalid unofficial extras squad message info"),
             ),
             MessageType::Npc => Self::Npc(
-                message
-                    .npc
-                    .as_ref()
+                unsafe { message.npc.as_ref() }
                     .expect("invalid unofficial extras npc message info"),
             ),
         }

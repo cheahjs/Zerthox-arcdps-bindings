@@ -1,7 +1,7 @@
 use crate::{
-    event::{impl_common, CommonEvent},
-    extract::Extract,
     Event, TryExtract,
+    event::{CommonEvent, impl_common},
+    extract::Extract,
 };
 
 #[cfg(feature = "serde")]

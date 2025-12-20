@@ -1,6 +1,6 @@
-use crate::extract::transmute_field;
 use crate::AgentId;
-use crate::{extract::Extract, Event, Position, StateChange, TryExtract};
+use crate::extract::transmute_field;
+use crate::{Event, Position, StateChange, TryExtract, extract::Extract};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -57,7 +57,7 @@ impl Extract for Effect51 {
             effect_id,
             source: AgentId::from_src(event),
             moving_platform: event.is_flanking,
-            location: EffectLocation::extract(event),
+            location: unsafe { event.extract() },
             duration,
             tracking_id,
             orientation: orientation.into(),

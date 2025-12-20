@@ -2,7 +2,7 @@
 name = "arcdps_example_plugin"
 version = "0.1.0"
 authors = ["Zerthox"]
-edition = "2021"
+edition = "2024"
 description = "Example ArcDPS plugin"
 repository = "https://github.com/zerthox/arcdps-rs"
 

@@ -1,4 +1,4 @@
-use crate::{util::Endian, Agent, Header, LogTransformed, Parse, ParseError, Save, Skill};
+use crate::{Agent, Header, LogTransformed, Parse, ParseError, Save, Skill, util::Endian};
 use byteorder::{ReadBytesExt, WriteBytesExt};
 use evtc::Event;
 use std::{fs::File, io, path::Path};

@@ -1,6 +1,6 @@
 use crate::{
-    extract::{transmute_field, Extract},
     AgentId, Event, Position, StateChange, TryExtract,
+    extract::{Extract, transmute_field},
 };
 
 #[cfg(feature = "serde")]
@@ -53,7 +53,7 @@ impl Extract for Effect45 {
             time: event.time,
             effect_id,
             source: AgentId::from_src(event),
-            location: EffectLocation::extract(event),
+            location: unsafe { event.extract() },
             orientation: [x, y, z].into(),
             duration: if event.is_flanking != 0 || effect_id == 0 {
                 EffectDuration::TrackingId(duration)

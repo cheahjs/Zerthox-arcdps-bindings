@@ -32,11 +32,11 @@ pub use crate::{
 };
 
 use crate::{
+    Affinity, StateChange, TryExtract,
     buff::{BuffCycle, BuffRemove},
     extract::Extract,
     skill::Activation,
     strike::Strike,
-    Affinity, StateChange, TryExtract,
 };
 
 #[cfg(feature = "serde")]
@@ -257,7 +257,7 @@ impl Event {
     where
         T: Extract,
     {
-        T::extract(self)
+        unsafe { T::extract(self) }
     }
 
     /// Attempts to extract a type implementing [`TryExtract`] from the event.

@@ -1,7 +1,7 @@
 use crate::{
-    content::GUID,
-    extract::{transmute_field, Extract},
     AgentId, Event, StateChange, TryExtract,
+    content::GUID,
+    extract::{Extract, transmute_field},
 };
 
 #[cfg(feature = "serde")]

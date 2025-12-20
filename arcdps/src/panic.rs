@@ -7,8 +7,8 @@ use std::{
     panic::{self, PanicHookInfo},
 };
 use windows::{
+    Win32::UI::WindowsAndMessaging::{MB_ICONERROR, MB_OK, MB_SETFOREGROUND, MessageBoxA},
     core::PCSTR,
-    Win32::UI::WindowsAndMessaging::{MessageBoxA, MB_ICONERROR, MB_OK, MB_SETFOREGROUND},
 };
 
 /// Sets up the custom panic hook.

@@ -99,7 +99,7 @@ pub use arcdps_codegen::export;
 
 pub use crate::globals::{
     arc::init_arc,
-    dxgi::{d3d11_device, d3d_version, dxgi_swap_chain, init_dxgi},
+    dxgi::{d3d_version, d3d11_device, dxgi_swap_chain, init_dxgi},
     imgui::{imgui_context, init_imgui, with_ui},
 };
 pub use crate::util::strip_account_prefix;
@@ -313,7 +313,7 @@ pub struct SupportedFields {
 #[doc(hidden)]
 pub mod __macro {
     pub use crate::{
-        globals::imgui::{with_ui, FreeFn, MallocFn},
+        globals::imgui::{FreeFn, MallocFn, with_ui},
         util::{str_from_cstr, str_to_wide, strip_account_prefix},
     };
     pub use std::ffi::{c_char, c_void};
@@ -348,7 +348,7 @@ pub mod __macro {
         name: &'static str,
     ) {
         // arc exports have to be retrieved before panic hook & logging
-        init_arc(arc_handle, arc_version);
+        unsafe { init_arc(arc_handle, arc_version) };
 
         // only set panic hook if log file export was found
         if has_e3_log_file() {
@@ -366,7 +366,7 @@ pub mod __macro {
         }
 
         // initialize imgui & dxgi
-        init_imgui(imgui_ctx, malloc, free);
-        init_dxgi(id3d, d3d_version);
+        unsafe { init_imgui(imgui_ctx, malloc, free) };
+        unsafe { init_dxgi(id3d, d3d_version) };
     }
 }

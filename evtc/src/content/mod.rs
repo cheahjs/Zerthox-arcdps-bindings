@@ -6,8 +6,8 @@ mod guid;
 pub mod serde_guid;
 
 use crate::{
-    extract::{transmute_field, Extract},
     Event, StateChange, TryExtract,
+    extract::{Extract, transmute_field},
 };
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 
@@ -78,7 +78,7 @@ impl Extract for ContentInfo {
         Self {
             content_id: event.skill_id,
             guid: transmute_field!(event.src_agent as GUID),
-            content_type: event.extract(),
+            content_type: unsafe { event.extract() },
         }
     }
 }

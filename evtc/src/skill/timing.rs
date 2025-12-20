@@ -1,4 +1,4 @@
-use crate::{extract::Extract, Event, StateChange, TryExtract};
+use crate::{Event, StateChange, TryExtract, extract::Extract};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

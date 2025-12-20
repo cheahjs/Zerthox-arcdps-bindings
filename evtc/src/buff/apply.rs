@@ -1,7 +1,7 @@
 use crate::{
-    event::{impl_common, CommonEvent},
-    extract::Extract,
     Event, EventCategory, TryExtract,
+    event::{CommonEvent, impl_common},
+    extract::Extract,
 };
 
 #[cfg(feature = "serde")]
@@ -35,7 +35,7 @@ impl Extract for BuffApplyEvent {
     unsafe fn extract(event: &Event) -> Self {
         Self {
             common: event.into(),
-            apply: BuffApplyKind::extract(event),
+            apply: unsafe { event.extract() },
             stack_active: event.is_shields,
             stack_id: event.get_pad_id(),
         }

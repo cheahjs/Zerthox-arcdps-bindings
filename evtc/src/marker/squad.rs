@@ -1,6 +1,6 @@
 use crate::{
-    extract::{transmute_field, Extract},
     Event, Position, StateChange, TryExtract,
+    extract::{Extract, transmute_field},
 };
 use num_enum::{FromPrimitive, IntoPrimitive};
 

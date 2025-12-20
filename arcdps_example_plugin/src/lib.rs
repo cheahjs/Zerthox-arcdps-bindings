@@ -3,11 +3,12 @@
 #![allow(unused_variables)]
 
 use arcdps::{
+    Agent, Event, Language, StateChange,
     extras::{
-        message::Message, user::UserInfoIter, Control, ExtrasAddonInfo, KeybindChange,
-        SquadMessage, UserRole,
+        Control, ExtrasAddonInfo, KeybindChange, SquadMessage, UserRole, message::Message,
+        user::UserInfoIter,
     },
-    imgui, Agent, Event, Language, StateChange,
+    imgui,
 };
 
 arcdps::export! {
@@ -97,14 +98,14 @@ fn combat(
     id: u64,
     revision: u64,
 ) {
-    if let (Some(event), Some(src)) = (event, src) {
-        if let StateChange::EnterCombat = event.get_statechange() {
-            log::info!(
-                "{} ({}) has entered combat",
-                src.name().unwrap_or("unknown agent"),
-                src.id
-            );
-        }
+    if let (Some(event), Some(src)) = (event, src)
+        && event.get_statechange() == StateChange::EnterCombat
+    {
+        log::info!(
+            "{} ({}) has entered combat",
+            src.name().unwrap_or("unknown agent"),
+            src.id
+        );
     }
 }
 

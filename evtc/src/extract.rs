@@ -41,7 +41,7 @@ macro_rules! transmute_field {
 
         let event: &$crate::Event = ::std::borrow::Borrow::borrow($event);
         let field_ptr = ::std::ptr::addr_of!(event.$field);
-        (*field_ptr.cast::<$ty>()).clone()
+        unsafe { *field_ptr.cast::<$ty>() }.clone()
     }};
 }
 

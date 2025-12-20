@@ -1,6 +1,6 @@
 use crate::{
-    abi::{C_ABI, SYSTEM_ABI},
     ArcDpsGen, CallbackInfo,
+    abi::{C_ABI, SYSTEM_ABI},
 };
 use proc_macro2::{Span, TokenStream};
 use quote::{quote, quote_spanned};
@@ -48,14 +48,16 @@ impl ArcDpsGen {
             quote_spanned! {span=>
                 const __UPDATE_URL: ::arcdps::callbacks::UpdateUrlFunc = #update_url;
 
-                #[no_mangle]
+                #[unsafe(no_mangle)]
                 pub unsafe extern #SYSTEM_ABI fn get_update_url() -> *const ::std::primitive::u16 {
                     static mut URL: ::std::vec::Vec<::std::primitive::u16> = ::std::vec::Vec::new();
 
                     if let ::std::option::Option::Some(url) = self::__UPDATE_URL() {
                         let buf = ::std::ptr::addr_of_mut!(URL);
-                        *buf = ::arcdps::__macro::str_to_wide(url);
-                        (*buf).as_ptr()
+                        unsafe {
+                            *buf = ::arcdps::__macro::str_to_wide(url);
+                            (*buf).as_ptr()
+                        }
                     } else {
                         ::std::ptr::null()
                     }
@@ -129,7 +131,7 @@ impl ArcDpsGen {
                     const __OPTIONS_WINDOWS: ::arcdps::callbacks::OptionsWindowsCallback = #safe;
 
                     unsafe extern #C_ABI fn #name(window_name: *const ::arcdps::__macro::c_char) -> ::std::primitive::bool {
-                        ::arcdps::__macro::with_ui(|ui| self::__OPTIONS_WINDOWS(ui, ::arcdps::__macro::str_from_cstr(window_name)))
+                        unsafe { ::arcdps::__macro::with_ui(|ui| self::__OPTIONS_WINDOWS(ui, ::arcdps::__macro::str_from_cstr(window_name))) }
                     }
                 }
             },
@@ -147,7 +149,7 @@ impl ArcDpsGen {
                     const __OPTIONS_END: ::arcdps::callbacks::OptionsCallback = #safe;
 
                     unsafe extern #C_ABI fn #name() {
-                        ::arcdps::__macro::with_ui(|ui| self::__OPTIONS_END(ui))
+                        unsafe { ::arcdps::__macro::with_ui(|ui| self::__OPTIONS_END(ui)) }
                     }
                 }
             },
@@ -165,7 +167,7 @@ impl ArcDpsGen {
                     const __IMGUI: ::arcdps::callbacks::ImguiCallback = #safe;
 
                     unsafe extern #C_ABI fn #name(loading: ::std::primitive::u32) {
-                        ::arcdps::__macro::with_ui(|ui| self::__IMGUI(ui, loading != 0))
+                        unsafe { ::arcdps::__macro::with_ui(|ui| self::__IMGUI(ui, loading != 0)) }
                     }
                 }
             },
@@ -206,15 +208,16 @@ impl ArcDpsGen {
                 id: ::std::primitive::u64,
                 revision: ::std::primitive::u64,
             ) {
-
-                self::#name(
-                    event.as_ref(),
-                    src.as_ref(),
-                    dst.as_ref(),
-                    ::arcdps::__macro::str_from_cstr(skill_name),
-                    id,
-                    revision
-                )
+                unsafe {
+                    self::#name(
+                        event.as_ref(),
+                        src.as_ref(),
+                        dst.as_ref(),
+                        ::arcdps::__macro::str_from_cstr(skill_name),
+                        id,
+                        revision
+                    )
+                }
             }
         }
     }

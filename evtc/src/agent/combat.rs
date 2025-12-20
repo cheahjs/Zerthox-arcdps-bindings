@@ -1,5 +1,5 @@
 use crate::{
-    extract::Extract, AgentId, Event, Profession, Specialization, StateChange, TryExtract,
+    AgentId, Event, Profession, Specialization, StateChange, TryExtract, extract::Extract,
 };
 
 #[cfg(feature = "serde")]

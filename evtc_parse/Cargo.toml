@@ -1,8 +1,8 @@
 [package]
 name = "evtc_parse"
-version = "0.12.1"
+version = "0.13.0"
 authors = ["Zerthox"]
-edition = "2021"
+edition = "2024"
 description = "Parsing for ArcDPS EVTC logs"
 repository = "https://github.com/zerthox/arcdps-rs"
 rust-version = "1.87.0"
@@ -12,7 +12,7 @@ evtc = { path = "../evtc" }
 byteorder = "1.4.3"
 serde = { version = "1.0.160", features = ["derive"], optional = true }
 thiserror = "2.0.3"
-zip = { version = "6.0.0", optional = true }
+zip = { version = "7.0.0", optional = true }
 
 [features]
 default = ["zevtc"]

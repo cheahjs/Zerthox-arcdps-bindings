@@ -1,4 +1,4 @@
-use crate::{util::Endian, Event, Parse, Save};
+use crate::{Event, Parse, Save, util::Endian};
 use byteorder::{ReadBytesExt, WriteBytesExt};
 use std::io;
 

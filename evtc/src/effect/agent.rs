@@ -1,6 +1,6 @@
-use crate::extract::transmute_field;
 use crate::AgentId;
-use crate::{extract::Extract, Event, StateChange, TryExtract};
+use crate::extract::transmute_field;
+use crate::{Event, StateChange, TryExtract, extract::Extract};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

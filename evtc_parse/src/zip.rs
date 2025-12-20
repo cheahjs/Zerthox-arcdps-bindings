@@ -1,6 +1,6 @@
 use crate::{Log, Parse, ParseError};
 use std::io;
-use zip::{result::ZipError, ZipArchive};
+use zip::{ZipArchive, result::ZipError};
 
 /// Parses a [`Log`] from a compressed `zevtc` input.
 pub fn parse_zevtc(input: impl io::Read + io::Seek) -> Result<Log, ParseError> {

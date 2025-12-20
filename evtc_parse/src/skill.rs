@@ -1,6 +1,6 @@
 use crate::{
-    util::{read_string_buffer, truncate_null, write_string_buffer, Endian},
     Parse, ParseError, Save,
+    util::{Endian, read_string_buffer, truncate_null, write_string_buffer},
 };
 use byteorder::{ReadBytesExt, WriteBytesExt};
 use std::io;

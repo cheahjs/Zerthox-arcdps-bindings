@@ -1,4 +1,5 @@
 use crate::{
+    Event, EventCategory, Language, StateChange,
     agent::{
         AgentStatusEvent, AttackTargetEvent, BarrierUpdateEvent, BreakbarPercentEvent,
         BreakbarStateEvent, DownContributionEvent, EnterCombatEvent, GliderEvent,
@@ -21,7 +22,6 @@ use crate::{
     skill::{ActivationEvent, SkillInfo, SkillTiming},
     strike::StrikeEvent,
     weapon::WeaponSwapEvent,
-    Event, EventCategory, Language, StateChange,
 };
 
 #[cfg(feature = "serde")]

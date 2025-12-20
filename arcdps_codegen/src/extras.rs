@@ -1,10 +1,10 @@
 use crate::{
-    abi::{C_ABI, SYSTEM_ABI},
     CallbackInfo,
+    abi::{C_ABI, SYSTEM_ABI},
 };
 use proc_macro2::TokenStream;
 use quote::{quote, quote_spanned};
-use syn::{spanned::Spanned, Expr, LitStr};
+use syn::{Expr, LitStr, spanned::Spanned};
 
 #[derive(Default)]
 pub(crate) struct ExtrasGen {
@@ -84,19 +84,29 @@ impl ExtrasGen {
             squad_chat_message.unwrap_or(quote! { ::std::option::Option::None });
 
         let subscribe = quote! {
-            let addon = addon.as_ref().expect("unofficial extras did not provide addon info in init");
+            let addon = unsafe { addon.as_ref() }.expect("unofficial extras did not provide addon info in init");
             if sub.is_null() {
                 panic!("unofficial extras did not provide subscriber info in init");
             }
-            ::arcdps::extras::ExtrasSubscriberInfo::subscribe(sub, addon, #name, #squad_callback, #lang_callback, #keybind_callback, #squad_chat_callback, #chat_callback);
+            unsafe {
+                ::arcdps::extras::ExtrasSubscriberInfo::subscribe(
+                    sub,
+                    addon,
+                    #name,
+                    #squad_callback,
+                    #lang_callback,
+                    #keybind_callback,
+                    #squad_chat_callback,
+                    #chat_callback,
+                );
+            }
         };
 
         let (globals, contents) = if let Some(raw) = &self.raw_extras_init {
             let span = syn::Error::new_spanned(raw, "").span();
             (
                 quote_spanned! {span=>
-                    const _EXTRAS_INIT: ::arcdps::extras::callbacks::RawExtrasSubscriberInit = #raw;
-
+                    const __EXTRAS_INIT: ::arcdps::extras::callbacks::RawExtrasSubscriberInit = #raw;
                 },
                 quote_spanned! {span=>
                     self::__EXTRAS_INIT(addon, sub)
@@ -111,7 +121,7 @@ impl ExtrasGen {
                 quote_spanned! {span=>
                     #subscribe
 
-                    let user = ::arcdps::__macro::str_from_cstr(addon.self_account_name as _)
+                    let user = unsafe { ::arcdps::__macro::str_from_cstr(addon.self_account_name as _) }
                         .map(::arcdps::__macro::strip_account_prefix);
                     self::__EXTRAS_INIT(addon.clone().into(), user);
                 },
@@ -126,7 +136,7 @@ impl ExtrasGen {
         quote_spanned! {contents.span()=>
             #globals
 
-            #[no_mangle]
+            #[unsafe(no_mangle)]
             unsafe extern #SYSTEM_ABI fn arcdps_unofficial_extras_subscriber_init(
                 addon: *const ::arcdps::extras::RawExtrasAddonInfo,
                 sub: *mut ::arcdps::extras::ExtrasSubscriberInfo
@@ -150,7 +160,7 @@ impl ExtrasGen {
                         users: *const ::arcdps::extras::user::UserInfo,
                         count: ::std::primitive::u64
                     ) {
-                        self::__EXTRAS_SQUAD_UPDATE(::arcdps::extras::user::to_user_info_iter(users, count))
+                        self::__EXTRAS_SQUAD_UPDATE(unsafe { ::arcdps::extras::user::to_user_info_iter(users, count) })
                     }
                 }
             },
@@ -204,7 +214,7 @@ impl ExtrasGen {
                     const __EXTRAS_SQUAD_CHAT_MESSAGE: ::arcdps::extras::callbacks::ExtrasSquadChatMessageCallback = #safe;
 
                     unsafe extern #C_ABI fn #name(message: *const ::arcdps::extras::message::SquadMessage) {
-                        let message = message.as_ref()
+                        let message = unsafe { message.as_ref() }
                             .expect("unofficial extras did not provide message info in chat message callback");
                         self::__EXTRAS_SQUAD_CHAT_MESSAGE(message)
                     }
@@ -224,7 +234,7 @@ impl ExtrasGen {
                     const __EXTRAS_CHAT_MESSAGE: ::arcdps::extras::callbacks::ExtrasChatMessageCallback = #safe;
 
                     unsafe extern #C_ABI fn #name(message_type: ::arcdps::extras::message::MessageType, message: ::arcdps::extras::message::RawMessage) {
-                        let message = ::arcdps::extras::message::Message::new(message_type, message);
+                        let message = unsafe { ::arcdps::extras::message::Message::new(message_type, message) };
                         self::__EXTRAS_CHAT_MESSAGE(message)
                     }
                 }

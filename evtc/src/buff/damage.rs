@@ -1,7 +1,7 @@
 use crate::{
-    event::{impl_common, CommonEvent},
-    extract::Extract,
     Event, EventCategory, TryExtract,
+    event::{CommonEvent, impl_common},
+    extract::Extract,
 };
 use num_enum::{FromPrimitive, IntoPrimitive};
 

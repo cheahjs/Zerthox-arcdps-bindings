@@ -1,6 +1,6 @@
 #![allow(deprecated)]
 
-use crate::{extract::Extract, AgentId, Event, StateChange, TryExtract};
+use crate::{AgentId, Event, StateChange, TryExtract, extract::Extract};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

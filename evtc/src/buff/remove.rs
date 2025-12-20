@@ -1,7 +1,7 @@
 use crate::{
-    event::{impl_common, CommonEvent},
-    extract::Extract,
     Event, EventCategory, TryExtract,
+    event::{CommonEvent, impl_common},
+    extract::Extract,
 };
 use num_enum::{FromPrimitive, IntoPrimitive};
 
@@ -38,7 +38,7 @@ impl Extract for BuffRemoveEvent {
     unsafe fn extract(event: &Event) -> Self {
         Self {
             common: event.into(),
-            remove: event.extract(),
+            remove: unsafe { event.extract() },
             removed_duration: event.value,
             removed_intensity: event.buff_dmg,
         }

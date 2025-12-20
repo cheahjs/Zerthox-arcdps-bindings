@@ -1,10 +1,10 @@
 //! Unofficial extras callback types.
 
 use super::{
+    ExtrasAddonInfo, ExtrasSubscriberInfo, RawExtrasAddonInfo,
     keybinds::{KeybindChange, RawKeybindChange},
     message::{Message, MessageType, RawMessage, SquadMessage},
     user::{UserInfo, UserInfoIter},
-    ExtrasAddonInfo, ExtrasSubscriberInfo, RawExtrasAddonInfo,
 };
 use crate::{evtc::Language, util::abi};
 

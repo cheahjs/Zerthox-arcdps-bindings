@@ -36,14 +36,14 @@ impl GuidExt for GUID {
 
     #[inline]
     unsafe fn misinterpret(&self) -> [u8; 16] {
-        mem::transmute::<GUID, [u8; 16]>(*self)
+        unsafe { mem::transmute::<GUID, [u8; 16]>(*self) }
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{content::ContentInfo, Event, StateChange, TryExtract};
+    use crate::{Event, StateChange, TryExtract, content::ContentInfo};
     use std::mem;
 
     #[test]

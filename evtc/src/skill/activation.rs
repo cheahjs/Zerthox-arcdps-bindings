@@ -1,6 +1,8 @@
-use crate::{extract::Extract, AgentId, Event, EventCategory, Position, TryExtract};
+use crate::{
+    AgentId, Event, EventCategory, Position, TryExtract,
+    extract::{Extract, transmute_field},
+};
 use num_enum::{FromPrimitive, IntoPrimitive};
-use std::mem::transmute;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -39,7 +41,7 @@ pub struct ActivationEvent {
 impl Extract for ActivationEvent {
     #[inline]
     unsafe fn extract(event: &Event) -> Self {
-        let [x, y]: [f32; 2] = transmute(event.dst_agent);
+        let [x, y] = transmute_field!(event.dst_agent as [f32; 2]);
         let z = f32::from_bits(event.overstack_value);
         Self {
             time: event.time,
