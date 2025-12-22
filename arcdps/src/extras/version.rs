@@ -8,10 +8,10 @@ pub struct ExtrasVersion {
     /// Gets incremented whenever a function signature or behavior changes in a breaking way.
     pub api_version: u32,
 
-    /// Highest known version of the [`ExtrasSubscriberInfo`] struct.
+    /// Highest known version of the [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) struct.
     ///
     /// Also determines the size of the subscriber info buffer in the init call.
-    /// The buffer is only guaranteed to have enough space for known [`ExtrasSubscriberInfo`] versions.
+    /// The buffer is only guaranteed to have enough space for known [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) versions.
     pub max_info_version: u32,
 }
 
@@ -19,19 +19,19 @@ impl ExtrasVersion {
     /// Supported Unofficial Extras API version.
     pub const API: u32 = 2;
 
-    /// Range of supported [`ExtrasSubscriberInfo`] versions.
+    /// Range of supported [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo)  versions.
     pub const SUB_INFO_RANGE: RangeInclusive<u32> = 1..=3;
 
-    /// Minimum supported [`ExtrasSubscriberInfo`] version.
+    /// Minimum supported [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) version.
     pub const MIN_SUB_INFO: u32 = *Self::SUB_INFO_RANGE.start();
 
-    /// Maximum supported [`ExtrasSubscriberInfo`] version.
+    /// Maximum supported [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) version.
     pub const MAX_SUB_INFO: u32 = *Self::SUB_INFO_RANGE.end();
 
-    /// Minimum [`ExtrasSubscriberInfo`] version for message callback.
+    /// Minimum [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) version for message callback.
     pub const MESSAGE_CALLBACK: u32 = 2;
 
-    /// Minimum [`ExtrasSubscriberInfo`] version for message callback 2.
+    /// Minimum [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) version for message callback 2.
     pub const MESSAGE_CALLBACK2: u32 = 3;
 
     /// Creates new version information.
@@ -49,7 +49,7 @@ impl ExtrasVersion {
         self.api_version == Self::API && self.max_info_version >= Self::MIN_SUB_INFO
     }
 
-    /// Checks for compatibility and returns the highest supported [`ExtrasSubscriberInfo`] version supported by Unofficial Extras & the bindings.
+    /// Checks for compatibility and returns the highest supported [`ExtrasSubscriberInfo`](super::ExtrasSubscriberInfo) version supported by Unofficial Extras & the bindings.
     #[inline]
     pub fn get_version_to_use(&self) -> Option<u32> {
         self.is_compatible()

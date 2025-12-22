@@ -22,7 +22,7 @@ pub use self::guid::*;
 /// Content information.
 ///
 /// The contained GUID is interpreted as a Windows [`GUID`].
-/// See https://learn.microsoft.com/en-us/windows/win32/api/guiddef/ns-guiddef-guid for more information.
+/// See <https://learn.microsoft.com/en-us/windows/win32/api/guiddef/ns-guiddef-guid> for more information.
 ///
 /// Some GW2 community projects misinterpret the memory layout of the GUID as bytes rather than a Windows [`GUID`].
 /// When comparing or interfacing with such projects, you can use [`GuidExt::misinterpret`] on the [`GUID`].

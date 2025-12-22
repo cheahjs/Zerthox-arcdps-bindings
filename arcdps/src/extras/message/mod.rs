@@ -27,7 +27,7 @@ pub enum Message<'a> {
 }
 
 impl Message<'_> {
-    /// Creates a new message from [`RawMessageType`] and [`RawMessage`].
+    /// Creates a new message from a [`MessageType`] and [`RawMessage`].
     #[inline]
     pub unsafe fn new(message_type: MessageType, message: RawMessage) -> Self {
         match message_type {
