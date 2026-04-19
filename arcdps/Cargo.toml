@@ -12,7 +12,7 @@ license = "MIT"
 
 [dependencies]
 arcdps_codegen = { path = "../arcdps_codegen", optional = true }
-arcdps-imgui = { git = "https://github.com/cheahjs/imgui-rs", branch = "arcdps-from-upstream", features = ["tables-api"] }
+arcdps-imgui = { version = "0.13", git = "https://github.com/cheahjs/imgui-rs", branch = "arcdps-from-upstream", features = ["tables-api"] }
 bitflags = "2.8.0"
 chrono = { version = "0.4.24", optional = true }
 evtc = { path = "../evtc", features = ["realtime"] }
