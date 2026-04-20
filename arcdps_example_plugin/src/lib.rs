@@ -54,7 +54,7 @@ fn update_url() -> Option<String> {
 
 // Standalone UI creation.
 fn imgui(ui: &imgui::Ui, not_character_select_or_loading: bool) {
-    imgui::Window::new("My Window").build(ui, || {
+    ui.window("My Window").build(|| {
         ui.text("Hello World");
     });
 }

@@ -61,7 +61,7 @@ impl ArcDpsGen {
             static __EXPORT: ::arcdps::callbacks::ArcDpsExport = ::arcdps::callbacks::ArcDpsExport {
                 size: ::std::mem::size_of::<::arcdps::callbacks::ArcDpsExport>(),
                 sig: #sig,
-                imgui_version: 18000,
+                imgui_version: 19270,
                 out_build: #build.as_ptr() as _,
                 out_name: #name_c.as_ptr() as _,
                 combat: #combat_value,
@@ -80,7 +80,7 @@ impl ArcDpsGen {
                 static mut EXPORT_ERROR: ::arcdps::callbacks::ArcDpsExport = ::arcdps::callbacks::ArcDpsExport {
                     size: 0,
                     sig: 0,
-                    imgui_version: 18000,
+                    imgui_version: 19270,
                     out_build: #build.as_ptr() as _,
                     out_name: #name_c.as_ptr() as _,
                     combat: ::std::option::Option::None,
