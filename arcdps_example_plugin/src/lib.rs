@@ -2,6 +2,8 @@
 
 #![allow(unused_variables)]
 
+mod kitchen_sink;
+
 use arcdps::{
     Agent, Event, Language, StateChange,
     extras::{
@@ -54,9 +56,7 @@ fn update_url() -> Option<String> {
 
 // Standalone UI creation.
 fn imgui(ui: &imgui::Ui, not_character_select_or_loading: bool) {
-    ui.window("My Window").build(|| {
-        ui.text("Hello World");
-    });
+    kitchen_sink::draw(ui, not_character_select_or_loading);
 }
 
 /// Plugin settings UI creation.
