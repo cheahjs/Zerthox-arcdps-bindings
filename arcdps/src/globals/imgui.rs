@@ -13,7 +13,10 @@ pub static IG_CONTEXT: OnceLock<Share<Context>> = OnceLock::new();
 
 thread_local! {
     /// ImGui UI.
-    pub static IG_UI: Ui = Ui::from_ctx(unsafe { imgui_context() });
+    pub static IG_UI: Ui = unsafe {
+        imgui_context();
+        Ui::from_ctx()
+    };
 }
 
 /// Initializes ImGui information.
