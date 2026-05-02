@@ -149,7 +149,7 @@ impl ArcDpsGen {
                     const __OPTIONS_END: ::arcdps::callbacks::OptionsCallback = #safe;
 
                     unsafe extern #C_ABI fn #name() {
-                        unsafe { ::arcdps::__macro::with_ui(|ui| self::__OPTIONS_END(ui)) }
+                        unsafe { ::arcdps::__macro::with_ui(self::__OPTIONS_END) }
                     }
                 }
             },
